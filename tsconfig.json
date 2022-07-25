@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "rootDir": "ts",
+        "outDir": "js",
+        "target": "esnext",
+        "alwaysStrict": true,
+        "noImplicitAny": true,
+        "esModuleInterop": true,
+        "moduleResolution": "node"
+    }
+}
