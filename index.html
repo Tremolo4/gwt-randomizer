@@ -72,6 +72,15 @@
     window.addEventListener('load', (event) => {
       setTimeout(ev => main.shuffle(), 500);
     });
+
+    // shuffle on shake
+    import { Shake } from "./js/devicemotion.js";
+    const shake = new Shake({threshold: 50, timeout: 4000});
+    shake.addEventListener('shake', ev => {
+      main.shuffle();
+    });
+    // start listening and, on iOS, ask for permission first
+    const approved = await shake.start();
   </script>
 </body>
 </html>
