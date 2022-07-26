@@ -1,0 +1,44 @@
+#player-buildings {
+  perspective: 1000px;
+  text-align: center;
+}
+
+#neutral-buildings {
+  text-align: center;
+}
+
+.building-container {
+  display: inline-block;
+  position: relative;
+  width:  10em;
+  height: 10em;
+  border-radius: 9%;
+  box-shadow: 0.1em 0.2em 0.4em rgba(0,0,0,0.5);
+  margin: 5px;
+  transform-style: preserve-3d;
+}
+
+.building {
+  position: absolute;
+  
+  width: 10em;
+  height:10em;
+  background-image: url("../img/buildings.webp");
+  background-size: 1100% 1100%;
+  background-position-x: calc(var(--building-col, 10) * 100%/10);
+  background-position-y: calc(var(--building-row, 0)  * 100%/10);
+  border-radius: 9%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* .a-side {
+  --building-col: var(--building-a-col);
+  --building-row: var(--building-a-row);
+} */
+
+.b-side {
+  /* --building-col: var(--building-b-col);
+  --building-row: var(--building-b-row); */
+  transform: rotateY(180deg);
+}
