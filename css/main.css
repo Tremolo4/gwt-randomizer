@@ -42,3 +42,13 @@
   --building-row: var(--building-b-row); */
   transform: rotateY(180deg);
 }
+
+@keyframes shuffle {
+  0% {
+    transform: translateX(var(--old-pos-x, 0)) translateY(var(--old-pos-y, 0));
+  }
+
+  100% {
+    transform: translateX(0) translateY(0);
+  }
+}

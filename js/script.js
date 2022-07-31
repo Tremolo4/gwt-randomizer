@@ -1,7 +1,8 @@
 export class Main {
+    oldNeutralLocations = new Map();
     constructor() {
         for (var i = 0; i < 7; i++) {
-            this.addBuilding(i, "neutral-buildings");
+            let building = this.addBuilding(i, "neutral-buildings");
         }
         for (var i = 0; i < 12; i++) {
             this.addBuilding(i, "player-buildings");
@@ -22,9 +23,23 @@ export class Main {
             }
         }
         container = document.getElementById("neutral-buildings");
-        for (var i = container.children.length; i >= 0; i--) {
+        // Record old building locations, clear animations
+        for (let i = 0; i < container.children.length; i++) {
+            let building = container.children[i];
+            building.style.animation = "none";
+            this.oldNeutralLocations.set(building, { top: building.offsetTop, left: building.offsetLeft });
+        }
+        for (let i = container.children.length; i >= 0; i--) {
             // "| 0" casts to int
             container.appendChild(container.children[Math.random() * i | 0]);
+        }
+        // Animate neutral buildings
+        for (let i = 0; i < container.children.length; i++) {
+            let building = container.children[i];
+            let oldOffset = this.oldNeutralLocations.get(building);
+            building.style.setProperty("--old-pos-x", `${oldOffset.left - building.offsetLeft}px`);
+            building.style.setProperty("--old-pos-y", `${oldOffset.top - building.offsetTop}px`);
+            building.style.animation = `shuffle 1s ease-in-out`;
         }
     }
     addBuilding(index, type) {
@@ -59,5 +74,6 @@ export class Main {
         if (type == "player-buildings") {
             buildingContainer.style.transition = `transform ${3}s ${index / 8}s`;
         }
+        return buildingContainer;
     }
 }
