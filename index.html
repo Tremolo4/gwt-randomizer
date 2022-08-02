@@ -8,12 +8,13 @@
   <div id="content">
     <div id="neutral-buildings"></div>
     <div id="player-buildings"></div>
+    <div id="station-masters"></div>
   </div>
   <script type="module">
     import { Main } from "./js/script.js";
     var main = new Main();
     window.addEventListener('load', (event) => {
-      setTimeout(ev => main.shuffle(), 500);
+      setTimeout(ev => main.flipAndShuffle(), 500);
     });
   </script>
 </body>

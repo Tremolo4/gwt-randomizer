@@ -1,5 +1,5 @@
 #content {
-  font-size: 1.25vh;
+  font-size: 1.20vh;
 }
 
 @media screen and (orientation: landscape)
@@ -14,7 +14,6 @@
   }
 }
 
-
 #player-buildings {
   perspective: 1000px;
   text-align: center;
@@ -22,6 +21,39 @@
 
 #neutral-buildings {
   text-align: center;
+}
+
+#station-masters {
+  text-align: center;
+}
+
+.station-master {
+  position: absolute;
+  height: 8em;
+  width:  calc(62/74 * 8em);
+  background-image: url("../img/tiles.webp");
+  background-size: 1100% 300%;
+  background-position-x: calc(var(--building-col, 2) * 100%/10);
+  background-position-y: calc(var(--building-row, 10)  * 100%/2);
+  border-radius: 9%;
+}
+
+.sm-container {
+  display: inline-block;
+  position: relative;
+  height: 8em;
+  width:  calc(62/74 * 8em);
+  border-radius: 9%;
+  box-shadow: 0 0.2em 0.4em rgba(0,0,0,0.5);
+  margin-left: 1px;
+  margin-right: 1px;
+  transform-style: preserve-3d;
+}
+
+.fadeout {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 1s, opacity 1s linear;
 }
 
 .building-container {
@@ -38,7 +70,6 @@
 
 .building {
   position: absolute;
-  
   width: 10em;
   height:10em;
   background-image: url("../img/buildings.webp");
@@ -52,20 +83,18 @@
 
 .building-label {
   margin-top: 0.125em;
-  font-size: 5em;
+  font-size: 4.25em;
   color: white;
+  font-weight: bold;
   text-shadow: 0.00em 0.00em 0.1em black, 0.00em 0.00em 0.05em black, 0.00em 0.00em 0.01em black;
 }
 
-/* .a-side {
-  --building-col: var(--building-a-col);
-  --building-row: var(--building-a-row);
-} */
-
 .b-side {
-  /* --building-col: var(--building-b-col);
-  --building-row: var(--building-b-row); */
   transform: rotateY(180deg);
+}
+
+.b-side .building-label {
+  color: #aaff99;
 }
 
 @keyframes shuffle {

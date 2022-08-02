@@ -4,7 +4,7 @@ interface IOffset {
 }
 
 export class Main {
-    private readonly oldNeutralLocations: Map<HTMLDivElement, IOffset> = new Map();
+    private readonly oldLocations: Map<HTMLDivElement, IOffset> = new Map();
 
     constructor() {
         for (var i = 0; i < 7; i++)
@@ -16,10 +16,12 @@ export class Main {
         {
             this.addBuilding(i, "player-buildings");
         }
+
+        this.addStationMasters();
     }
 
-    shuffle() {
-        var container = document.getElementById("player-buildings") as HTMLDivElement;
+    flipAndShuffle() {
+        let container = document.getElementById("player-buildings") as HTMLDivElement;
         for (let elem of container.children)
         {
             if (elem instanceof HTMLDivElement)
@@ -31,33 +33,47 @@ export class Main {
                 }
                 elemAny.rotDegrees += Math.floor((Math.random() * 4) + 5) * 180;
                 elem.style.transform = `rotateY(${elemAny.rotDegrees}deg)`;
-                
-                // elem.classList.toggle("a-side");
-                // elem.classList.toggle("b-side");
             }
         }
-        container = document.getElementById("neutral-buildings") as HTMLDivElement;
+        this.animateShuffle("neutral-buildings");
+        this.animateShuffle("station-masters");
+    }
 
-        // Record old building locations, clear animations
+    animateShuffle(type: string)
+    {
+        let container = document.getElementById(type) as HTMLDivElement;
+
+        // Record old locations, clear animations
         for (let i = 0; i < container.children.length; i++) {
             let building = container.children[i] as HTMLDivElement;
             building.style.animation = "none";
-            this.oldNeutralLocations.set(building, {top: building.offsetTop, left: building.offsetLeft});
+            this.oldLocations.set(building, {top: building.offsetTop, left: building.offsetLeft});
         }
 
         for (let i = container.children.length; i >= 0; i--) {
             // "| 0" casts to int
             container.appendChild(container.children[Math.random() * i | 0]);
         }
-        
-        // Animate neutral buildings
+
+        // Animate shuffled elements
         for (let i = 0; i < container.children.length; i++) {
             let building = container.children[i] as HTMLDivElement;
-            let oldOffset = this.oldNeutralLocations.get(building);
+            let oldOffset = this.oldLocations.get(building);
 
             building.style.setProperty("--old-pos-x", `${oldOffset.left - building.offsetLeft}px`);
             building.style.setProperty("--old-pos-y", `${oldOffset.top - building.offsetTop}px`);
-            building.style.animation = `shuffle 1s ease-in-out`;
+            // the station masters that fade out shall not actually move visibly
+            let duration = type == "station-masters" && i >= 5 ? 1000 : 1;
+            building.style.animation = `shuffle ${duration}s ease-in-out`;
+        }
+
+        if (type == "station-masters") {
+            // fade out station masters that were not selected
+            for (let i = 5; i < container.children.length; i++) {
+                let elem = container.children[i] as HTMLDivElement;
+                elem.classList.add("fadeout");
+                setTimeout(() => elem.style.setProperty("display", "none"), 1000);
+            }
         }
     }
 
@@ -114,5 +130,30 @@ export class Main {
         building_b.appendChild(building_b_text);
 
         return buildingContainer;
+    }
+
+    addStationMasters()
+    {
+        for (let col = 9; col < 11; col++)
+            this.addStationMaster(1, col);
+
+        for (let col = 0; col < 4; col++)
+            this.addStationMaster(2, col);
+
+        for (let col = 6; col < 9; col++)
+            this.addStationMaster(2, col);
+    }
+
+    addStationMaster(row: number, col: number)
+    {
+        var container = document.getElementById("station-masters");
+        var smContainer = document.createElement("div");
+        smContainer.classList.add("sm-container");
+        var stationMaster = document.createElement("div");
+        stationMaster.classList.add("station-master");
+        stationMaster.style.setProperty("--building-row", row.toString());
+        stationMaster.style.setProperty("--building-col", col.toString());
+        smContainer.appendChild(stationMaster);
+        container.appendChild(smContainer);
     }
 }
