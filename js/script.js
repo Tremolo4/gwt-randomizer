@@ -47,16 +47,6 @@ export class Main {
         var a_row;
         var b_col;
         var b_row;
-        if (type == "neutral-buildings") {
-            a_col = b_col = index;
-            a_row = b_row = 0;
-        }
-        else if (type == "player-buildings") {
-            a_col = (index * 2) % 11;
-            a_row = Math.floor((index * 2) / 11) + 1;
-            b_col = (index * 2 + 1) % 11;
-            b_row = Math.floor((index * 2 + 1) / 11) + 1;
-        }
         var container = document.getElementById(type);
         var buildingContainer = document.createElement("div");
         buildingContainer.classList.add("building-container");
@@ -64,6 +54,24 @@ export class Main {
         var building_b = document.createElement("div");
         building_a.classList.add("building", "a-side");
         building_b.classList.add("building", "b-side");
+        var building_a_text = document.createElement("div");
+        building_a_text.classList.add("building-label");
+        var building_b_text = document.createElement("div");
+        building_b_text.classList.add("building-label");
+        if (type == "neutral-buildings") {
+            a_col = b_col = index;
+            a_row = b_row = 0;
+            building_a_text.textContent = building_b_text.textContent = String.fromCharCode('A'.charCodeAt(0) + index);
+        }
+        else if (type == "player-buildings") {
+            a_col = (index * 2) % 11;
+            a_row = Math.floor((index * 2) / 11) + 1;
+            b_col = (index * 2 + 1) % 11;
+            b_row = Math.floor((index * 2 + 1) / 11) + 1;
+            building_a_text.textContent = `${index + 1}a`;
+            building_b_text.textContent = `${index + 1}b`;
+            buildingContainer.style.transition = `transform ${3}s ${index / 8}s`;
+        }
         building_a.style.setProperty("--building-row", a_row.toString());
         building_a.style.setProperty("--building-col", a_col.toString());
         building_b.style.setProperty("--building-row", b_row.toString());
@@ -71,9 +79,8 @@ export class Main {
         buildingContainer.appendChild(building_a);
         buildingContainer.appendChild(building_b);
         container.appendChild(buildingContainer);
-        if (type == "player-buildings") {
-            buildingContainer.style.transition = `transform ${3}s ${index / 8}s`;
-        }
+        building_a.appendChild(building_a_text);
+        building_b.appendChild(building_b_text);
         return buildingContainer;
     }
 }

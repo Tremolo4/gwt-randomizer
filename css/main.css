@@ -1,3 +1,20 @@
+#content {
+  font-size: 1.25vh;
+}
+
+@media screen and (orientation: landscape)
+{
+  #content {
+    font-size: 1.125vw;
+    margin: auto;
+  }
+  #player-buildings {
+    max-width: 75vw;
+    margin: auto;
+  }
+}
+
+
 #player-buildings {
   perspective: 1000px;
   text-align: center;
@@ -14,7 +31,8 @@
   height: 10em;
   border-radius: 9%;
   box-shadow: 0 0.2em 0.4em rgba(0,0,0,0.5);
-  margin: 5px;
+  margin-left: 1px;
+  margin-right: 1px;
   transform-style: preserve-3d;
 }
 
@@ -30,6 +48,13 @@
   border-radius: 9%;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+}
+
+.building-label {
+  margin-top: 0.125em;
+  font-size: 5em;
+  color: white;
+  text-shadow: 0.00em 0.00em 0.1em black, 0.00em 0.00em 0.05em black, 0.00em 0.00em 0.01em black;
 }
 
 /* .a-side {
