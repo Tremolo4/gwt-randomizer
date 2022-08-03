@@ -25,6 +25,8 @@
 
 #station-masters {
   text-align: center;
+  max-width: calc(62/74 * 8 * 5.2em);
+  margin: auto;
 }
 
 .station-master {
